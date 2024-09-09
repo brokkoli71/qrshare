@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
 
     <?php
@@ -24,9 +24,9 @@
         document.addEventListener("DOMContentLoaded", function(){
             url = window.location.href + "?session=" + "<?php echo $session; ?>";
             document.getElementById("qrcode").setAttribute("src","https://api.mimfa.net/qrcode?value="+encodeURIComponent(url)+"&as=value");
+
+           
         });
-        
-        
     </script>
 </head>
 <body>
@@ -124,8 +124,8 @@
                 </div>
             </div>
             <div style="overflow: hidden; width: min(400px, 100%)">
-                <form action="index.php" method="post">
-                    <input class="password" style="width:70%" type='text' id='pwd'  name="pwd" tabindex='-1' placeholder='optional encryption key' size=10 value='<?php echo "$pwd";?>'>
+                <form action="index.php" method="post" id="pwd_form">
+                    <input id="pwd_field" type="text" style="width:70%" name="pwd" tabindex='-1' placeholder='optional encryption key' value='<?php echo "$pwd";?>'>
                     <input type='submit' style="width:25%" id="shared" value="change" tabindex='-1' value='ok'>
                     <input type="hidden" id="session" name="session" value='<?php echo "$session";?>'>
                 </form>
@@ -144,6 +144,12 @@
         <p>The data will be encrypted using your password and stored in the database. Choose a strong password to secure your data.</p>
     </div>
     <script>
+    
+        //auto submit password field on change
+        $("#pwd_field").change(function(event) {
+            $('#pwd_form').delay(200).submit();
+        });
+            
         //change session id button
         function expand() {
           slider.className = 'expanded';
