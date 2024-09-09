@@ -115,10 +115,10 @@
             <p>Check if you have the same room id on your devices: <b> <?php echo $session; ?></b></p>
             <div style="overflow: hidden; width: min(400px, 100%)">
                 <div id='slider' class='collapsed'>
-                    <input type='button' id='toggle' value='Change room' class=".button-13">
+                    <input type='submit' style="width:96%"  id='toggle' value='Change room'>
                     <form action="index.php" method="post">
                         <input class="input" style="width:70%" type='number' id='session'  name="session" tabindex='-1' placeholder='session' size=10 value='<?php echo "$session";?>'>
-                        <input type='submit' style="width:25%" id="shared" value="change" tabindex='-1' value='ok'>
+                        <input type='submit' style="width:25%" id="shared" value="change" tabindex='-1'>
                         <input type="hidden" id="pwd" name="pwd" value='<?php echo "$pwd";?>'>
                     </form>
                 </div>
@@ -144,23 +144,23 @@
         <p>The data will be encrypted using your password and stored in the database. Choose a strong password to secure your data.</p>
     </div>
     <script>
-        //change sessionID button
+        //change session id button
         function expand() {
           slider.className = 'expanded';
           setTimeout(function() {
-            input.focus();
+            session.focus();
           }, 200);
         }
         
         function collapse() {
           slider.className = 'collapsed';
-          input.blur();
+          session.blur();
         }
         
         toggle.onclick = expand;
         input.onblur = function() {
           setTimeout(collapse, 100);
         }
-            </script>
+    </script>
 
 </body>
