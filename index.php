@@ -69,9 +69,6 @@
                         $ciphertext = openssl_encrypt($content, $cipher, $pwd, $options=0, $iv, $tag);
                         // speichere $cipher, $iv und $tag für spätere Entschlüsselung
                         $original_plaintext = openssl_decrypt($ciphertext, $cipher, $pwd, $options=0, $iv, $tag);
-                        echo $original_plaintext."\n";
-                        echo $ciphertext;
-                        echo $ciphertext, $cipher, $key, $options=0, $iv, $tag;
 
                         // Prepare the SQL query
                         $stmt2 = $db->prepare("INSERT INTO QRshared(content, session, enc_iv, enc_tag) VALUES (?,?,?,?)");
@@ -102,9 +99,12 @@
                     echo "<ul>";
                     if($stmt->num_rows > 0) {
                         while ($stmt->fetch()) {
-                            $original_plaintext = openssl_decrypt($read_content, $cipher, $pwd, $options=0, base64_decode($iv_b64), base64_decode($tag_b64));
-                            if ($original_plaintext) printf("<li>%s</li>", $original_plaintext); 
-                            else printf("<li>could not decrypt using current password %s</li>", $read_content); 
+                            if(!$iv_b64) printf("<li>%s</li>", $read_content);
+                            else if ($original_plaintext = openssl_decrypt($read_content, $cipher, $pwd, $options=0, base64_decode($iv_b64), base64_decode($tag_b64))) 
+                                printf("<li>%s</li>", $original_plaintext);
+                            else if($original_plaintext = openssl_decrypt($read_content, $cipher, "", $options=0, base64_decode($iv_b64), base64_decode($tag_b64)))
+                                 printf("<li>%s</li>", $original_plaintext);
+                            else printf("<li style='background-color: #E6709188'>could not decrypt using current password: %s</li>", $read_content); 
                         }
                     }
                     echo "</ul>";
