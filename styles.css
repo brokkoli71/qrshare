@@ -109,6 +109,22 @@
       display: inline; 
   }
   
+    
+  #slider {
+      display: flex;
+      width: 200%;
+      transition: 0.5s;
+  }
+    
+  #slider.expanded {
+      transform: translateX(-50%);
+  }
+    
+  #toggle {
+      flex: 0 0 50%;
+  }
+
+  
   /* For desktop: */
   .col-1 {width: 8.33%;}
   .col-2 {width: 16.66%;}
